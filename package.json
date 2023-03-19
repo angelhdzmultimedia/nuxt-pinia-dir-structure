@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.7",
+    "@quasar/extras": "^1.15.11",
     "nuxt-quasar-ui": "^1.0.5",
     "pinia": "^2.0.33",
+    "quasar": "^2.11.8",
     "rimraf": "^4.4.0"
   }
 }
