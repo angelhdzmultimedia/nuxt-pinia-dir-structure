@@ -6,17 +6,33 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
 const email = ref<string>()
 const password = ref<string>()
 const isPasswordHidden = ref<boolean>(true)
-const formRef = ref<QForm | undefined>()
 const step = ref(1)
 const { notifyError } = useNotificationStore()
 const route = useRoute()
-const stepperRef = ref<QStepperNavigation | undefined>
+const stepperRef = ref<QStepper | undefined>
+const passwordInputRef = ref<QInput | undefined>()
+const emailInputRef = ref<QInput | undefined>()
+
 
 // Computed
+
 const isPersistent = computed(() => route.path === '/login')
 const isDone = computed(() => step.value === 3)
+const isValidated = computed(() => {
+  return !emailInputRef.value?.hasError && !passwordInputRef.value?.hasError
+})
+
+// Validations
+
+const isEmail = (value) => {
+const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
+  return emailPattern.test(value) || 'Email not valid!';
+}
+
+const isRequired = (value) => !!value || 'Field required!'
 
 // Stores
+
 const auth = useAuthenticationStore()
 
 function handleCloseButtonClick() {
@@ -26,28 +42,30 @@ function handleCloseButtonClick() {
   }
 }
 
-function handleLoginButtonClick() {
- // loginForm.value?.submit()
-}
-
-function handlePasswordVisibilityIconClick() {
-  isPasswordHidden.value = !isPasswordHidden.value
-}
-
-async function handleLoginFormSubmit() {
-  try {
+async function handleLoginButtonClick() {
+try {
     await auth.login(email.value, password.value)
   } catch (error: unknown) {
     notifyError(error.message)
   }
 }
 
-function handleStepPreviousButtonClick() {
-  stepperRef.value
+function handlePasswordVisibilityIconClick() {
+  isPasswordHidden.value = !isPasswordHidden.value
 }
 
-function handleStepNextButtonClick() {
-  
+function handleStepperPreviousButtonClick() {
+  if (step.value < 1) {
+    return
+  }
+  step.value--
+}
+
+function handleStepperNextButtonClick() {
+  if (step.value > 2) {
+    return
+  }
+  step.value++
 }
 
 onMounted(() => {
@@ -55,8 +73,6 @@ onMounted(() => {
     dialogRef.value?.show()
   }
 })
-
-
 </script>
 
 <template>
@@ -64,15 +80,24 @@ onMounted(() => {
     <q-card class="column items-center q-pa-sm">
       <q-card-section class="column items-center q-gutter-y-sm">
         <span class="text-h6">Login</span>
-        <q-stepper v-model="step" ref="stepper" color="primary" animated>
+        <q-stepper ref="stepperRef" v-model="step" color="primary" animated>
           <q-step
             :name="1"
             title="Email"
             active-icon="mail"
             icon="mail"
             :done="step > 1"
+            :error="emailInputRef?.hasError"
           >
-            <q-input v-model="email" filled dense label="Email" />
+            <q-input
+              ref="emailInputRef"
+              lazy-rules
+              :rules="[isEmail, isRequired]"
+              v-model="email"
+              filled
+              dense
+              label="Email"
+            />
           </q-step>
           <q-step
             :name="2"
@@ -80,8 +105,12 @@ onMounted(() => {
             active-icon="lock"
             icon="lock"
             :done="step > 2"
+            :error="passwordInputRef?.hasError"
           >
             <q-input
+              ref="passwordInputRef"
+              lazy-rules
+              :rules="[isRequired]"
               v-model="password"
               filled
               dense
@@ -109,18 +138,19 @@ onMounted(() => {
           </q-step>
 
           <template #navigation>
-            <q-stepper-navigation ref="stepperRef">
+            <q-stepper-navigation>
               <q-btn
                 v-if="step > 1"
                 flat
                 color="primary"
-                @click="handleStepPreviousButtonClick"
+                @click="handleStepperPreviousButtonClick"
                 label="Back"
                 class="q-ml-sm"
               />
               <q-btn
+                :disabled="!isValidated"
                 v-if="!isDone"
-                @click="handleStepNextButtonClick"
+                @click="handleStepperNextButtonClick"
                 color="primary"
                 label="Next"
               />
