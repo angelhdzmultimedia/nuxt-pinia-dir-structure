@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   srcDir: 'src',
   modules: ['@pinia/nuxt', ['nuxt-quasar-ui', { autoImports: true }]],
   imports: {
-    dirs: ['.src/stores/*/index.{ts}]', './src/stores', './src/stores/**'],
+    dirs: ['stores/**', 'stores/*/index.ts', 'stores'],
     imports: [{ from: 'pinia', name: 'defineStore' }],
   },
   quasar: {

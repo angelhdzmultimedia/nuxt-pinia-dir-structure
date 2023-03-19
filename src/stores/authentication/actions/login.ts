@@ -15,7 +15,7 @@ export async function login(...args: LoginDataArgs): Promise<void> {
     loginData = {
       ...loginDataAlike,
     }
-  } else if (email && password) {
+  } else if (email || password) {
     loginData = {
       email,
       password,

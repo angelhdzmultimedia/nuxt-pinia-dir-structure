@@ -1,7 +1,7 @@
 import * as state from './state'
 import * as actions from './actions'
 
-export const useAuthenticationStore = defineStore('authentication', () => {
+export const useNotificationStore = defineStore('notification', () => {
   return {
     ...state,
     ...actions,
