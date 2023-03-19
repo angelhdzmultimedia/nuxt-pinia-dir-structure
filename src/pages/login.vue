@@ -6,10 +6,11 @@ const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
 const email = ref<string>()
 const password = ref<string>()
 const isPasswordHidden = ref<boolean>(true)
-const loginForm = ref<QForm | undefined>()
+const formRef = ref<QForm | undefined>()
 const step = ref(1)
 const { notifyError } = useNotificationStore()
 const route = useRoute()
+const stepperRef = ref<QStepperNavigation | undefined>
 
 // Computed
 const isPersistent = computed(() => route.path === '/login')
@@ -26,7 +27,7 @@ function handleCloseButtonClick() {
 }
 
 function handleLoginButtonClick() {
-  loginForm.value?.submit()
+ // loginForm.value?.submit()
 }
 
 function handlePasswordVisibilityIconClick() {
@@ -41,11 +42,21 @@ async function handleLoginFormSubmit() {
   }
 }
 
+function handleStepPreviousButtonClick() {
+  stepperRef.value
+}
+
+function handleStepNextButtonClick() {
+  
+}
+
 onMounted(() => {
   if (route.path === '/login') {
     dialogRef.value?.show()
   }
 })
+
+
 </script>
 
 <template>
@@ -98,18 +109,18 @@ onMounted(() => {
           </q-step>
 
           <template #navigation>
-            <q-stepper-navigation >
+            <q-stepper-navigation ref="stepperRef">
               <q-btn
                 v-if="step > 1"
                 flat
                 color="primary"
-                @click="$refs.stepper.previous()"
+                @click="handleStepPreviousButtonClick"
                 label="Back"
                 class="q-ml-sm"
               />
               <q-btn
                 v-if="!isDone"
-                @click="$refs.stepper.next()"
+                @click="handleStepNextButtonClick"
                 color="primary"
                 label="Next"
               />
