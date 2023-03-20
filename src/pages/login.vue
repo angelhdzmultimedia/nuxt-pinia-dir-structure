@@ -56,7 +56,7 @@ function handlePasswordVisibilityIconClick() {
   isPasswordHidden.value = !isPasswordHidden.value
 }
 
-function handleStepperPreviousButtonClick() {
+function handlePreviousButtonClick() {
   if (step.value < 1) {
     return
   }
@@ -67,7 +67,7 @@ function handleStepperPreviousButtonClick() {
   })
 }
 
-function handleStepperNextButtonClick() {
+function handleNextButtonClick() {
   if (step.value > 2) {
     return
   }
@@ -153,14 +153,14 @@ onMounted(() => {
                 v-if="step > 1"
                 flat
                 color="primary"
-                @click="handleStepperPreviousButtonClick"
+                @click="handlePreviousButtonClick"
                 label="Back"
                 class="q-ml-sm"
               />
               <q-btn
                 :disabled="!isValidated"
                 v-if="!isDone"
-                @click="handleStepperNextButtonClick"
+                @click="handleNextButtonClick"
                 color="primary"
                 label="Next"
               />
