@@ -23,6 +23,7 @@ const isValidated = computed(() => {
   return !emailInputRef.value?.hasError && !passwordInputRef.value?.hasError
 })
 
+
 // Validations
 
 const isEmail = (value) => {
@@ -32,13 +33,16 @@ const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a
 
 const isRequired = (value) => !!value || 'Field required!'
 
+
 // Stores
 
 const auth = useAuthenticationStore()
 
 function handleCloseButtonClick() {
   onDialogCancel()
-  navigateTo('/')
+  if (!props.isPopup) {
+    navigateTo('/')
+  }
 }
 
 async function handleLoginButtonClick() {
@@ -94,9 +98,10 @@ onMounted(() => {
           >
             <q-input
               autofocus
+              lazy-rules="ondemand"
+              @change="emailInputRef?.validate"
               ref="emailInputRef"
-              lazy-rules
-              :rules="[isEmail, isRequired]"
+              :rules="[isRequired, isEmail]"
               v-model="email"
               filled
               dense
@@ -114,7 +119,8 @@ onMounted(() => {
             <q-input
               autofocus
               ref="passwordInputRef"
-              lazy-rules
+              @change="emailInputRef?.validate"
+              lazy-rules="ondemand"
               :rules="[isRequired]"
               v-model="password"
               filled
