@@ -61,10 +61,7 @@ function handlePreviousButtonClick() {
     return
   }
   step.value--
-   nextTick(() => {
-    emailInputRef.value?.focus()
-  passwordInputRef.value?.focus()
-  })
+  nextTick(focusInputs)
 }
 
 function handleNextButtonClick() {
@@ -72,11 +69,8 @@ function handleNextButtonClick() {
     return
   }
   step.value++
-  nextTick(() => {
-    emailInputRef.value?.focus()
-  passwordInputRef.value?.focus()
-  })
 }
+
 
 onMounted(() => {
   if (route.path === '/login') {
@@ -100,6 +94,7 @@ onMounted(() => {
             :error="emailInputRef?.hasError"
           >
             <q-input
+              autofocus
               ref="emailInputRef"
               lazy-rules
               :rules="[isEmail, isRequired]"
@@ -118,6 +113,7 @@ onMounted(() => {
             :error="passwordInputRef?.hasError"
           >
             <q-input
+              autofocus
               ref="passwordInputRef"
               lazy-rules
               :rules="[isRequired]"
