@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { LoginPage } = useLogin();
+const { show } = useLogin({ isPopup: false });
+
+onMounted(show);
 </script>
 
-<template>
-  <LoginPage />
-</template>
+<template></template>

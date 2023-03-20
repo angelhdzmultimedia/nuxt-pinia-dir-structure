@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps({isPopup: false})
+const props = defineProps({isPopup: true})
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
@@ -17,7 +17,7 @@ const emailInputRef = ref<QInput | undefined>()
 
 // Computed
 
-const isPersistent = computed(() => route.path === '/login')
+const isPersistent = computed(() => !props.isPopup)
 const isDone = computed(() => step.value === 3)
 const isValidated = computed(() => {
   return !emailInputRef.value?.hasError && !passwordInputRef.value?.hasError
@@ -38,9 +38,6 @@ const auth = useAuthenticationStore()
 
 function handleCloseButtonClick() {
   onDialogCancel()
-  if (route.path === '/login') {
-    return navigateTo('/')
-  }
 }
 
 async function handleLoginButtonClick() {
