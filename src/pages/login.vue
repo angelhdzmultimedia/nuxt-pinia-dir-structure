@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { show } = useLogin({ isPopup: false });
+const { show: showLogin } = useLogin({ isPopup: false });
 
-onMounted(show);
+onMounted(showLogin);
 </script>
 
 <template></template>
