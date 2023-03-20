@@ -38,6 +38,7 @@ const auth = useAuthenticationStore()
 
 function handleCloseButtonClick() {
   onDialogCancel()
+  navigateTo('/')
 }
 
 async function handleLoginButtonClick() {
