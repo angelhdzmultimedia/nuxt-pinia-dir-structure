@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import LoginPage from '~/pages/login.vue'
-const auth = useAuthenticationStore()
-const $q = useQuasar()
+const auth = useAuthenticationStore();
+const { show: showLogin } = useLogin();
 
 function handleLoginButtonClick() {
-  $q.dialog({
-    component: LoginPage,
-  })
+  showLogin();
 }
 </script>
 
