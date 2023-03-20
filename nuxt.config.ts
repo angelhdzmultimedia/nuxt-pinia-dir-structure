@@ -4,7 +4,10 @@ export default defineNuxtConfig({
   modules: ['@pinia/nuxt', ['nuxt-quasar-ui', { autoImports: true }]],
   imports: {
     dirs: ['stores/*/index.ts'],
-    imports: [{ from: 'pinia', name: 'defineStore' }],
+    imports: [
+      { from: 'pinia', name: 'defineStore' },
+      { from: 'pinia', name: 'storeToRefs' },
+    ],
   },
   quasar: {
     extras: {
@@ -14,4 +17,4 @@ export default defineNuxtConfig({
 
     plugins: ['Dark', 'Dialog', 'Notify'],
   },
-})
+});

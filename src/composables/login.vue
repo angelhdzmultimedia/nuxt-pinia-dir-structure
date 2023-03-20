@@ -4,8 +4,8 @@ defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
   useDialogPluginComponent()
-const email = ref<string>()
-const password = ref<string>()
+const email = ref<string>('angelhdz@gmail.com')
+const password = ref<string>('123456')
 const isPasswordHidden = ref<boolean>(true)
 const step = ref(1)
 const { notifyError } = useNotificationStore()
