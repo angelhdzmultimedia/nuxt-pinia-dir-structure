@@ -45,6 +45,8 @@ function handleCloseButtonClick() {
 async function handleLoginButtonClick() {
 try {
     await auth.login(email.value, password.value)
+    onDialogOK()
+    return navigateTo('/')
   } catch (error: unknown) {
     notifyError(error.message)
   }
@@ -59,6 +61,10 @@ function handleStepperPreviousButtonClick() {
     return
   }
   step.value--
+   nextTick(() => {
+    emailInputRef.value?.focus()
+  passwordInputRef.value?.focus()
+  })
 }
 
 function handleStepperNextButtonClick() {
@@ -66,6 +72,10 @@ function handleStepperNextButtonClick() {
     return
   }
   step.value++
+  nextTick(() => {
+    emailInputRef.value?.focus()
+  passwordInputRef.value?.focus()
+  })
 }
 
 onMounted(() => {
@@ -79,7 +89,7 @@ onMounted(() => {
   <q-dialog :persistent="isPersistent" ref="dialogRef" @hide="onDialogHide">
     <q-card class="column items-center q-pa-sm">
       <q-card-section class="column items-center q-gutter-y-sm">
-        <span class="text-h6">Login</span>
+        <span class="text-h6">Login Form</span>
         <q-stepper ref="stepperRef" v-model="step" color="primary" animated>
           <q-step
             :name="1"

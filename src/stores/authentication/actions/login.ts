@@ -1,4 +1,5 @@
-import { LoginData } from '~~/src/types/login-data'
+import { LoginData } from '~/types/login-data'
+import { isAuthenticated, user } from '../state'
 
 type LoginDataArgs = [LoginData] | [string, string]
 
@@ -22,5 +23,11 @@ export async function login(...args: LoginDataArgs): Promise<void> {
     }
   }
 
-  console.log(loginData)
+  isAuthenticated.value = true
+  user.value = {
+    ...loginData,
+    id: Date.now().toString(),
+    name: 'Angel',
+    username: 'angelhdz',
+  }
 }
