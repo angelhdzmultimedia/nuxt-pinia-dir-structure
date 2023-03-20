@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const props = defineProps({isPopup: false})
 defineEmits([...useDialogPluginComponent.emits])
 
 const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
@@ -73,7 +74,7 @@ function handleNextButtonClick() {
 
 
 onMounted(() => {
-  if (route.path === '/login') {
+  if (!props.isPopup) {
     dialogRef.value?.show()
   }
 })

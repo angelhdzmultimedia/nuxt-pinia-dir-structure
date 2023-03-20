@@ -1,13 +1,21 @@
 import LoginPage from './login.vue';
 
-export const useLogin = () => {
+type LoginOptions = {
+  isPopup: boolean;
+};
+export const useLogin = (options: LoginOptions) => {
   const $q = useQuasar();
+  const isPopup = ref(false);
 
   return {
     LoginPage,
+    isPopup,
     show() {
-      $q.dialog({
+      return $q.dialog({
         component: LoginPage,
+        props: {
+          isPopup: true,
+        },
       });
     },
   };
